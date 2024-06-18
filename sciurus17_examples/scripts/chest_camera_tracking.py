@@ -99,7 +99,7 @@ class ObjectTracker:
 
     def _detect_color_object(self, bgr_image, lower_color, upper_color):
         # 画像から指定された色の物体を検出する
-        # Detec the specified colored object from the image
+        # Detect the specified colored object from the image
 
         MIN_OBJECT_SIZE = 7000 # px * px
 
