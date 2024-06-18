@@ -103,7 +103,7 @@ class ObjectTracker:
                 0)
 
         # 画像の中心を0, 0とした座標系に変換
-        # Convert the coordinate where the image center is 0, 0
+        # Converts the coordinate where the image center is 0, 0
         translated_point = Point()
         translated_point.x = object_center.x - self._image_shape.x * 0.5
         translated_point.y = -(object_center.y - self._image_shape.y * 0.5)
@@ -160,7 +160,7 @@ class ObjectTracker:
             mask = cv2.inRange(input_depth_image, depth[0], depth[1])
 
             # マスクから輪郭を抽出
-            # Extract the contours with the mask
+            # Extracts the contours with the mask
             if self._CV_MAJOR_VERSION == '4':
                 contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
             else:
@@ -175,7 +175,7 @@ class ObjectTracker:
 
             if len(rects) > 0:
                 # 最も大きい長方形を抽出
-                # Extract the largest rectangle
+                # Extracts the largest rectangle
                 rect = max(rects, key=(lambda x: x[2] * x[3]))
             
                 rect_size = rect[2] * rect[3]
@@ -184,7 +184,7 @@ class ObjectTracker:
                 # Check if the size of the rectangle is within the limit
                 if rect_size > MIN_OBJECT_SIZE and rect_size < MAX_OBJECT_SIZE:
                     # 抽出した長方形を画像に描画する
-                    # Draw the rectangle on the image
+                    # Draws the rectangle on the image
                     cv2.rectangle(output_image, 
                             (rect[0], rect[1]), 
                             (rect[0] + rect[2], rect[1] + rect[3]), 
@@ -203,7 +203,7 @@ class ObjectTracker:
                     self._median_depth =  int(np.median(object_depth))
 
                     # 中央値のテキストを出力画像に描画する
-                    # Write the median on the output image
+                    # Writes the median on the output image
                     cv2.putText(output_image, str(self._median_depth), 
                             (rect[0], rect[1]+30),
                             cv2.FONT_HERSHEY_SIMPLEX,
@@ -257,7 +257,7 @@ class NeckYawPitch(object):
 
     def set_angle(self, yaw_angle, pitch_angle, goal_secs=1.0e-9):
         # 首を指定角度に動かす
-        # Move the neck to the specified angle
+        # Moves the neck to the specified angle
         goal = FollowJointTrajectoryGoal()
         goal.trajectory.joint_names = ["neck_yaw_joint", "neck_pitch_joint"]
 

@@ -54,12 +54,12 @@ class ObjectTracker:
             rospy.logerr(e)
 
         # 画像のwidth, heightを取得
-        # Obtain the width and height of the image
+        # Obtains the width and height of the image
         self._image_shape.x = input_image.shape[1]
         self._image_shape.y = input_image.shape[0]
 
         # 特定色のオブジェクトを検出
-        # Detect an object with a certain color
+        # Detects an object with a certain color
         output_image = self._detect_orange_object(input_image)
         # output_image = self._detect_blue_object(input_image)
 
@@ -78,7 +78,7 @@ class ObjectTracker:
                 0)
 
         # 画像の中心を0, 0とした座標系に変換
-        # Convert the coordinate where the image center is 0, 0
+        # Converts the coordinate where the image center is 0, 0
         translated_point = Point()
         translated_point.x = object_center.x - self._image_shape.x * 0.5
         translated_point.y = -(object_center.y - self._image_shape.y * 0.5)
@@ -99,12 +99,12 @@ class ObjectTracker:
 
     def _detect_color_object(self, bgr_image, lower_color, upper_color):
         # 画像から指定された色の物体を検出する
-        # Detect the specified colored object from the image
+        # Detects the specified colored object from the image
 
         MIN_OBJECT_SIZE = 7000 # px * px
 
         # BGR画像をHSV色空間に変換
-        # Convert the BGR image to HSV model
+        # Converts the BGR image to HSV model
         hsv = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2HSV)
 
         # 色を抽出するマスクを生成
@@ -112,14 +112,14 @@ class ObjectTracker:
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
         # マスクから輪郭を抽出
-        # Extract the contours with the mask
+        # Extracts the contours with the mask
         if self._CV_MAJOR_VERSION == '4':
             contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         else:
             _, contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         # 輪郭を長方形に変換し、配列に格納
-        # Convert the contour to a rectangle and store it in a vector
+        # Converts the contour to a rectangle and store it in a vector
         rects = []
         for contour in contours:
             approx = cv2.convexHull(contour)
@@ -129,7 +129,7 @@ class ObjectTracker:
         self._object_detected = False
         if len(rects) > 0:
             # 最も大きい長方形を抽出
-            # Extract the largest rectangle
+            # Extracts the largest rectangle
             rect = max(rects, key=(lambda x: x[2] * x[3]))
 
             # 長方形が小さければ検出判定にしない
@@ -203,7 +203,7 @@ class WaistYaw(object):
 
     def set_angle(self, yaw_angle, goal_secs=1.0e-9):
         # 腰を指定角度に動かす
-        # Move the waist to the specified angle
+        # Moves the waist to the specified angle
         goal = FollowJointTrajectoryGoal()
         goal.trajectory.joint_names = ["waist_yaw_joint"]
 

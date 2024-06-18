@@ -67,7 +67,7 @@ class ObjectTracker:
         self._image_shape.y = input_image.shape[0]
 
         # オブジェクト(特定色 or 顔) の検出
-        # Detecting the object (a specific color or a face)
+        # Detects the object (a specific color or a face)
         output_image = self._detect_orange_object(input_image)
         # output_image = self._detect_blue_object(input_image)
         # output_image = self._detect_face(input_image)
@@ -87,7 +87,7 @@ class ObjectTracker:
                 0)
 
         # 画像の中心を0, 0とした座標系に変換
-        # Convert the coordinate where the image center is 0, 0
+        # Converts the coordinate where the image center is 0, 0
         translated_point = Point()
         translated_point.x = object_center.x - self._image_shape.x * 0.5
         translated_point.y = -(object_center.y - self._image_shape.y * 0.5)
@@ -108,7 +108,7 @@ class ObjectTracker:
 
     def _detect_color_object(self, bgr_image, lower_color, upper_color):
         # 画像から指定された色の物体を検出する
-        # Detect an object with the specified color from the image
+        # Detects an object with the specified color from the image
 
         MIN_OBJECT_SIZE = 1000 # px * px
 
@@ -121,14 +121,14 @@ class ObjectTracker:
         mask = cv2.inRange(hsv, lower_color, upper_color)
 
         # マスクから輪郭を抽出
-        # Extract the contours with the mask
+        # Extracts the contours with the mask
         if self._CV_MAJOR_VERSION == '4':
             contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         else:
             _, contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         # 輪郭を長方形に変換し、配列に格納
-        # Convert the contour to a rectangle and store it in a vector
+        # Converts the contour to a rectangle and store it in a vector
         rects = []
         for contour in contours:
             approx = cv2.convexHull(contour)
@@ -138,7 +138,7 @@ class ObjectTracker:
         self._object_detected = False
         if len(rects) > 0:
             # 最も大きい長方形を抽出
-            # Extract the largest rectangle
+            # Extracts the largest rectangle
             rect = max(rects, key=(lambda x: x[2] * x[3]))
 
             # 長方形が小さければ検出判定にしない
@@ -194,32 +194,32 @@ class ObjectTracker:
         gray = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2GRAY)
 
         # 処理時間短縮のため画像を縮小
-        # Compress the image to shorten the process
+        # Compresses the image to shorten the process
         height, width = gray.shape[:2]
         small_gray = cv2.resize(gray, (width/SCALE, height/SCALE))
 
         # カスケードファイルを使って顔認識
-        # Use the cascade file for face detection
+        # Uses the cascade file for face detection
         small_faces = self._face_cascade.detectMultiScale(small_gray)
 
         self._object_detected = False
         for small_face in small_faces:
             # 顔の領域を元のサイズに戻す
-            # Resize the face area to the original size
+            # Resizes the face area to the original size
             face = small_face*SCALE
             
             # グレー画像から顔部分を抽出
-            # Find the face area from the gray scaled image
+            # Finds the face area from the gray scaled image
             roi_gray = gray[
                     face[1]:face[1]+face[3],
                     face[0]:face[0]+face[2]]
 
             # 顔の中から目を検知
-            # Detect the eyes from the face
+            # Detects the eyes from the face
             eyes = self._eyes_cascade.detectMultiScale(roi_gray)
 
             # 目を検出したら、対象のrect(座標と大きさ)を記録する
-            # If the eyes are detected, record the size and coordinates
+            # If the eyes are detected, records the size and coordinates
             if len(eyes) > 0:
                 cv2.rectangle(bgr_image, 
                         (face[0],face[1]), 

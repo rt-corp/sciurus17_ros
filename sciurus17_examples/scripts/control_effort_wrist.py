@@ -59,7 +59,7 @@ def joint_state_callback(msg):
 def main():
     global joint_state
 
-    # Set P and D gain to avoid the wrist oscillation.
+    # Sets P and D gain to avoid the wrist oscillation.
     pid_controller = PIDController(0.5, 0.0, 3.0)
 
     r = rospy.Rate(60)
@@ -71,7 +71,7 @@ def main():
 
         wrist_angle = joint_state.position[6]
 
-        # Switch the target angle every 5 seconds.
+        # Switches the target angle every 5 seconds.
         present_time = rospy.Time.now().secs
         if present_time - start_time > 5:
             start_time = present_time

@@ -39,7 +39,7 @@ void convert_to_marker(visualization_msgs::Marker *marker, const int marker_id,
         const pcl::PointXYZRGB &min_pt, const pcl::PointXYZRGB &max_pt)
 {
     // pcl::Pointの最大最小値をBox型のマーカに変換する
-    // Convert the max/min of the pcl::Point to a Box-type marker
+    // Converts the max/min of the pcl::Point to a Box-type marker
 
     marker->header.frame_id = frame_id;
     marker->header.stamp = ros::Time();
@@ -126,7 +126,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
     voxelgrid.filter (*cloud_voxelgrid);
 
     // pointがなければ処理を抜ける
-    // Exit the process if there's no point
+    // Exits the process if there's no point
     if(cloud_voxelgrid->size() <= 0){
         return;
     }
@@ -176,7 +176,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& cloud_msg)
         *cloud_output += *cloud_cluster;
 
         // Markerの作成
-        // Create the marker
+        // Creates the marker
         visualization_msgs::Marker marker;
         pcl::PointXYZRGB min_pt, max_pt;
         pcl::getMinMax3D(*cloud_cluster, min_pt, max_pt);
