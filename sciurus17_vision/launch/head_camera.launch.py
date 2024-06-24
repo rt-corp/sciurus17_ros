@@ -24,6 +24,7 @@ def generate_launch_description():
                 get_package_share_directory('realsense2_camera'),
                 '/launch/rs_launch.py']),
             launch_arguments={
+                'camera_namespace': '',
                 'camera_name': 'head_camera',
                 'device_type': 'd415',
                 'rgb_camera.profile': '640x360x30',
