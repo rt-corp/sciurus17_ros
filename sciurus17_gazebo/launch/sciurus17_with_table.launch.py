@@ -40,22 +40,22 @@ def generate_launch_description():
     )
 
     # PATHを追加で通さないとSTLファイルが読み込まれない
-    env = {'IGN_GAZEBO_SYSTEM_PLUGIN_PATH': os.environ['LD_LIBRARY_PATH'],
-           'IGN_GAZEBO_RESOURCE_PATH': os.path.dirname(
+    env = {'GZ_SIM_SYSTEM_PLUGIN_PATH': os.environ['LD_LIBRARY_PATH'],
+           'GZ_SIM_RESOURCE_PATH': os.path.dirname(
                get_package_share_directory('sciurus17_description'))}
     world_file = os.path.join(
         get_package_share_directory('sciurus17_gazebo'), 'worlds', 'table.sdf')
     gui_config = os.path.join(
         get_package_share_directory('sciurus17_gazebo'), 'gui', 'gui.config')
     # -r オプションで起動時にシミュレーションをスタートしないと、コントローラが起動しない
-    ign_gazebo = ExecuteProcess(
-            cmd=['ign gazebo -r', world_file, '--gui-config', gui_config],
+    gz_sim = ExecuteProcess(
+            cmd=['gz sim -r', world_file, '--gui-config', gui_config],
             output='screen',
             additional_env=env,
             shell=True
         )
 
-    ignition_spawn_entity = Node(
+    gz_sim_spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
         output='screen',
@@ -136,8 +136,8 @@ def generate_launch_description():
         SetParameter(name='use_sim_time', value=True),
         declare_use_head_camera,
         declare_use_chest_camera,
-        ign_gazebo,
-        ignition_spawn_entity,
+        gz_sim,
+        gz_sim_spawn_entity,
         spawn_joint_state_broadcaster,
         spawn_right_arm_controller,
         spawn_right_gripper_controller,
