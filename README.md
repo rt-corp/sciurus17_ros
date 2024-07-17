@@ -26,6 +26,7 @@ ROS 2 package suite of Sciurus17.
 ## Supported ROS 2 distributions
 
 - Humble
+- Jazzy
 
 ### ROS 1
 
@@ -38,9 +39,9 @@ ROS 2 package suite of Sciurus17.
   - [製品ページ](https://www.rt-net.jp/products/sciurus17)
   - [ウェブショップ](https://www.rt-shop.jp/index.php?main_page=product_info&products_id=3895)
 - Linux OS
-  - Ubuntu 22.04
+  - Ubuntu 24.04
 - ROS
-  - [Humble Hawksbill](https://docs.ros.org/en/humble/Installation.html)
+  - [Jazzy Jalisco](https://docs.ros.org/en/jazzy/Installation.html)
 
 ## Installation
 
@@ -48,7 +49,7 @@ ROS 2 package suite of Sciurus17.
 
 ```sh
 # Setup ROS environment
-source /opt/ros/humble/setup.bash
+source /opt/ros/jazzy/setup.bash
 
 # Download packages
 mkdir -p ~/ros2_ws/src
