@@ -26,6 +26,7 @@ ROS 2 package suite of Sciurus17.
 ## Supported ROS 2 distributions
 
 - Humble
+- Jazzy
 
 ### ROS 1
 
@@ -38,23 +39,28 @@ ROS 2 package suite of Sciurus17.
   - [製品ページ](https://www.rt-net.jp/products/sciurus17)
   - [ウェブショップ](https://www.rt-shop.jp/index.php?main_page=product_info&products_id=3895)
 - Linux OS
-  - Ubuntu 22.04
+  - Ubuntu 24.04
 - ROS
-  - [Humble Hawksbill](https://docs.ros.org/en/humble/Installation.html)
+  - [Jazzy Jalisco](https://docs.ros.org/en/jazzy/Installation.html)
 
 ## Installation
 
 ### Build from source
+2024 July 18現在、カメラを使ったサンプルで使用しているusb_camを正常に実行するためには
+aptに登録されているものよりも最新のimage_commonのバージョンを使用する必要があります
+そのためsciurus17関連のパッケージと合わせてソースからビルドします
 
 ```sh
 # Setup ROS environment
-source /opt/ros/humble/setup.bash
+source /opt/ros/jazzy/setup.bash
 
 # Download packages
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
 git clone -b ros2 https://github.com/rt-net/sciurus17_ros.git
 git clone -b ros2 https://github.com/rt-net/sciurus17_description.git
+# To run examples with camera
+git clone -b 5.1.4 https://github.com/ros-perception/image_common.git
 
 # Install dependencies
 rosdep install -r -y -i --from-paths .
