@@ -35,7 +35,12 @@ def generate_launch_description():
 
     moveit_config = (
         MoveItConfigsBuilder("sciurus17")
-        .planning_pipelines("ompl", ["ompl"])
+        .planning_scene_monitor(
+            publish_robot_description=True,
+            publish_robot_description_semantic=True,
+        )
+        .trajectory_execution(file_path="config/moveit_controllers.yaml")
+        .planning_pipelines(pipelines=["ompl"])
         .to_moveit_configs()
         )
 
