@@ -9,6 +9,8 @@
     - [3. move\_groupとcontrollerを起動する](#3-move_groupとcontrollerを起動する)
   - [準備 (Gazeboを使う場合)](#準備-gazeboを使う場合)
     - [1. move\_groupとGazeboを起動する](#1-move_groupとgazeboを起動する)
+  - [準備（Mock Componentsを使う場合）](#準備mock-componentsを使う場合)
+    - [1. move\_groupとcontrollerを起動する](#1-move_groupとcontrollerを起動する)
   - [サンプルプログラムを実行する](#サンプルプログラムを実行する)
     - [Gazeboでサンプルプログラムを実行する場合](#gazeboでサンプルプログラムを実行する場合)
   - [Examples](#examples)
@@ -63,6 +65,19 @@ ros2 launch sciurus17_gazebo sciurus17_with_table.launch.py
 ros2 launch sciurus17_gazebo sciurus17_with_table.launch.py use_head_camera:=false use_chest_camera:=false
 ```
 
+## 準備（Mock Componentsを使う場合）
+
+### 1. move_groupとcontrollerを起動する
+
+次のコマンドでmove_group (`sciurus17_moveit_config`)と
+controller (`sciurus17_control`)を起動します。
+
+```sh
+ros2 launch sciurus17_examples demo.launch.py use_mock_components:=true
+```
+
+Mock Componentsではカメラを使ったサンプルを実行することはできません。
+
 ## サンプルプログラムを実行する
 
 準備ができたらサンプルプログラムを実行します。
@@ -86,13 +101,25 @@ ros2 launch sciurus17_examples example.launch.py example:='gripper_control' use_
 
 `demo.launch`を実行している状態で各サンプルを実行できます。
 
-- [gripper\_control](#gripper_control)
-- [neck\_control](#neck_control)
-- [waist\_control](#waist_control)
-- [pick\_and\_place\_right\_arm\_waist](#pick_and_place_right_arm_waist)
-- [pick\_and\_place\_left\_arm](#pick_and_place_left_arm)
-- [head\_camera\_tracking](#head_camera_tracking)
-- [chest\_camera\_tracking](#chest_camera_tracking)
+- [sciurus17\_examples](#sciurus17_examples)
+  - [準備（実機を使う場合）](#準備実機を使う場合)
+    - [1. Sciurus17本体をPCに接続する](#1-sciurus17本体をpcに接続する)
+    - [2. USB通信ポートの接続を確認する](#2-usb通信ポートの接続を確認する)
+    - [3. move\_groupとcontrollerを起動する](#3-move_groupとcontrollerを起動する)
+  - [準備 (Gazeboを使う場合)](#準備-gazeboを使う場合)
+    - [1. move\_groupとGazeboを起動する](#1-move_groupとgazeboを起動する)
+  - [準備（Mock Componentsを使う場合）](#準備mock-componentsを使う場合)
+    - [1. move\_groupとcontrollerを起動する](#1-move_groupとcontrollerを起動する)
+  - [サンプルプログラムを実行する](#サンプルプログラムを実行する)
+    - [Gazeboでサンプルプログラムを実行する場合](#gazeboでサンプルプログラムを実行する場合)
+  - [Examples](#examples)
+    - [gripper\_control](#gripper_control)
+    - [neck\_control](#neck_control)
+    - [waist\_control](#waist_control)
+    - [pick\_and\_place\_right\_arm\_waist](#pick_and_place_right_arm_waist)
+    - [pick\_and\_place\_left\_arm](#pick_and_place_left_arm)
+    - [head\_camera\_tracking](#head_camera_tracking)
+    - [chest\_camera\_tracking](#chest_camera_tracking)
 
 実行できるサンプルの一覧は、`example.launch.py`にオプション`-s`を付けて実行することで表示できます。
 

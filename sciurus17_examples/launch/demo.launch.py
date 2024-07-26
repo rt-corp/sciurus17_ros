@@ -55,11 +55,18 @@ def generate_launch_description():
         'manipulator_config.yaml'
     )
 
+    declare_use_mock_components = DeclareLaunchArgument(
+        'use_mock_components',
+        default_value='false',
+        description='Use mock_components or not.'
+    )
+
     description_loader = RobotDescriptionLoader()
     description_loader.port_name = LaunchConfiguration('port_name')
     description_loader.baudrate = LaunchConfiguration('baudrate')
     description_loader.timeout_seconds = '1.0'
     description_loader.manipulator_config_file_path = config_file_path
+    description_loader.use_mock_components = LaunchConfiguration('use_mock_components')
 
     description = description_loader.load()
 
@@ -98,6 +105,7 @@ def generate_launch_description():
         declare_baudrate,
         declare_use_head_camera,
         declare_use_chest_camera,
+        declare_use_mock_components,
         move_group,
         control_node,
         head_camera_node,
