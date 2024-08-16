@@ -58,8 +58,8 @@ def generate_launch_description():
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_pipelines(pipelines=["ompl"])
         .moveit_cpp(
-            file_path=get_package_share_directory("sciurus17_moveit_config")
-            + "/config/moveit_cpp.yaml"
+            file_path=get_package_share_directory("sciurus17_examples_py")
+            + "/config/sciurus17_moveit_py_examples.yaml"
         )
         .to_moveit_configs()
         )

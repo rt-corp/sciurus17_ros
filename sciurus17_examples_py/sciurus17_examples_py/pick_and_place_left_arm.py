@@ -38,7 +38,6 @@ def plan_and_execute(
     sleep_time=0.0,
 ):
     """Helper function to plan and execute a motion."""
-    # plan to goal
     logger.info("Planning trajectory")
     if multi_plan_parameters is not None:
         plan_result = planning_component.plan(
@@ -112,13 +111,11 @@ def main(args=None):
     # SRDFに定義されている"l_arm_init_pose"の姿勢にする
     l_arm.set_start_state_to_current_state()
     l_arm.set_goal_state(configuration_name="l_arm_init_pose")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 何かを掴んでいた時のためにハンドを開く
@@ -126,13 +123,11 @@ def main(args=None):
     robot_state = RobotState(robot_model)
     robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_OPEN])
     l_gripper.set_goal_state(robot_state=robot_state)
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_gripper,
         logger,
         single_plan_parameters=gripper_plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 物体の上に腕を伸ばす
@@ -140,13 +135,11 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=PRE_AND_POST_GRASP_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 掴みに行く
@@ -154,13 +147,11 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=GRASP_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
     
     # ハンドを閉じる
@@ -168,13 +159,11 @@ def main(args=None):
     robot_state = RobotState(robot_model)
     robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_GRASP])
     l_gripper.set_goal_state(robot_state=robot_state)
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_gripper,
         logger,
         single_plan_parameters=gripper_plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 持ち上げる
@@ -182,13 +171,11 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=PRE_AND_POST_GRASP_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 移動する
@@ -196,13 +183,11 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=PRE_AND_POST_RELEASE_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # 下ろす
@@ -210,13 +195,11 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=RELEASE_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # ハンドを開く
@@ -224,13 +207,11 @@ def main(args=None):
     robot_state = RobotState(robot_model)
     robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_OPEN])
     l_gripper.set_goal_state(robot_state=robot_state)
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_gripper,
         logger,
         single_plan_parameters=gripper_plan_request_params,
-        # sleep_time=3.0,
     )
 
     # ハンドを持ち上げる
@@ -238,25 +219,21 @@ def main(args=None):
     l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
         header=Header(frame_id="base_link"), pose=PRE_AND_POST_RELEASE_POSE),
                          pose_link="l_link7")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # SRDFに定義されている"l_arm_init_pose"の姿勢にする
     l_arm.set_start_state_to_current_state()
     l_arm.set_goal_state(configuration_name="l_arm_init_pose")
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_arm,
         logger,
         single_plan_parameters=plan_request_params,
-        # sleep_time=3.0,
     )
 
     # ハンドを閉じる
@@ -264,13 +241,11 @@ def main(args=None):
     robot_state = RobotState(robot_model)
     robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_CLOSE])
     l_gripper.set_goal_state(robot_state=robot_state)
-    # plan to goal
     plan_and_execute(
         sciurus17,
         l_gripper,
         logger,
         single_plan_parameters=gripper_plan_request_params,
-        # sleep_time=3.0,
     )
 
     # Finishe with error. Related Issue
