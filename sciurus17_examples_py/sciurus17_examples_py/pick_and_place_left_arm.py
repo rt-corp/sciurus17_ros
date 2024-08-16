@@ -13,11 +13,13 @@
 # limitations under the License.
 import time
 import math
+import copy
 
 # generic ros libraries
 import rclpy
 from rclpy.logging import get_logger
-from geometry_msgs.msg import Pose, Point, Quaternion
+from geometry_msgs.msg import Pose, PoseStamped, Point, Quaternion
+from std_msgs.msg import Header
 
 # moveit python library
 from moveit.core.robot_state import RobotState
@@ -25,6 +27,7 @@ from moveit.planning import (
     MoveItPy,
     PlanRequestParameters,
 )
+
 
 def plan_and_execute(
     robot,
@@ -39,12 +42,10 @@ def plan_and_execute(
     logger.info("Planning trajectory")
     if multi_plan_parameters is not None:
         plan_result = planning_component.plan(
-            multi_plan_parameters=multi_plan_parameters
-        )
+            multi_plan_parameters=multi_plan_parameters)
     elif single_plan_parameters is not None:
         plan_result = planning_component.plan(
-            single_plan_parameters=single_plan_parameters
-        )
+            single_plan_parameters=single_plan_parameters)
     else:
         plan_result = planning_component.plan()
 
@@ -57,6 +58,7 @@ def plan_and_execute(
         logger.error("Planning failed")
 
     time.sleep(sleep_time)
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -72,42 +74,51 @@ def main(args=None):
     l_gripper = sciurus17.get_planning_component("l_gripper_group")
 
     robot_model = sciurus17.get_robot_model()
-    
+
     plan_request_params = PlanRequestParameters(
-        sciurus17, 
+        sciurus17,
         "ompl_rrtc",
     )
     gripper_plan_request_params = PlanRequestParameters(
-        sciurus17, 
+        sciurus17,
         "ompl_rrtc",
     )
     # 動作速度の調整
-    plan_request_params.max_acceleration_scaling_factor = 0.1 # Set 0.0 ~ 1.0
-    plan_request_params.max_velocity_scaling_factor = 0.1 # Set 0.0 ~ 1.0
+    plan_request_params.max_acceleration_scaling_factor = 0.1  # Set 0.0 ~ 1.0
+    plan_request_params.max_velocity_scaling_factor = 0.1  # Set 0.0 ~ 1.0
     # 動作速度の調整
-    gripper_plan_request_params.max_acceleration_scaling_factor = 1.0 # Set 0.0 ~ 1.0
-    gripper_plan_request_params.max_velocity_scaling_factor = 1.0 # Set 0.0 ~ 1.0
+    gripper_plan_request_params.max_acceleration_scaling_factor = 1.0  # Set 0.0 ~ 1.0
+    gripper_plan_request_params.max_velocity_scaling_factor = 1.0  # Set 0.0 ~ 1.0
 
     # グリッパの開閉角
     GRIPPER_CLOSE = math.radians(0.0)
     GRIPPER_OPEN = math.radians(-40.0)
     GRIPPER_GRASP = math.radians(-20.0)
-    # 物体を掴む位置
-    PICK_POSE = Pose(position=Point(x=0.25, y=0.0, z=0.12))
-    # 物体を置く位置
-    PLACE_POSE = Pose(position=Point(x=0.35, y=0.0, z=0.12))
     # 物体を持ち上げる高さ
     LIFTING_HEIFHT = 0.25
-    
+    # 物体を掴む位置
+    GRASP_POSE = Pose(position=Point(x=0.25, y=0.0, z=0.12),
+                      orientation=Quaternion(x=-0.707, y=0.0, z=0.0,
+                                             w=0.707))  # downward
+    PRE_AND_POST_GRASP_POSE = copy.deepcopy(GRASP_POSE)
+    PRE_AND_POST_GRASP_POSE.position.z += LIFTING_HEIFHT
+    # 物体を置く位置
+    RELEASE_POSE = Pose(position=Point(x=0.35, y=0.0, z=0.12),
+                        orientation=Quaternion(x=-0.707, y=0.0, z=0.0,
+                                               w=0.707))  # downward
+    PRE_AND_POST_RELEASE_POSE = copy.deepcopy(RELEASE_POSE)
+    PRE_AND_POST_RELEASE_POSE.position.z += LIFTING_HEIFHT
+
     # SRDFに定義されている"l_arm_init_pose"の姿勢にする
     l_arm.set_start_state_to_current_state()
     l_arm.set_goal_state(configuration_name="l_arm_init_pose")
     # plan to goal
     plan_and_execute(
         sciurus17,
-        l_arm, logger,
+        l_arm,
+        logger,
         single_plan_parameters=plan_request_params,
-        sleep_time=3.0,
+        # sleep_time=3.0,
     )
 
     # 何かを掴んでいた時のためにハンドを開く
@@ -118,22 +129,150 @@ def main(args=None):
     # plan to goal
     plan_and_execute(
         sciurus17,
-        l_gripper, logger,
+        l_gripper,
+        logger,
         single_plan_parameters=gripper_plan_request_params,
-        sleep_time=3.0,
+        # sleep_time=3.0,
     )
-    # 物体の上に腕を伸ばす
-    # 掴みに行く
-    # ハンドを閉じる
-    # 持ち上げる
-    # 移動する
-    # 下ろす
-    # ハンドを開く
-    # ハンドを持ち上げる
-    # SRDFに定義されている"l_arm_init_pose"の姿勢にする
-    # ハンドを閉じる
 
+    # 物体の上に腕を伸ばす
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=PRE_AND_POST_GRASP_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # 掴みに行く
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=GRASP_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
     
+    # ハンドを閉じる
+    l_gripper.set_start_state_to_current_state()
+    robot_state = RobotState(robot_model)
+    robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_GRASP])
+    l_gripper.set_goal_state(robot_state=robot_state)
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_gripper,
+        logger,
+        single_plan_parameters=gripper_plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # 持ち上げる
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=PRE_AND_POST_GRASP_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # 移動する
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=PRE_AND_POST_RELEASE_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # 下ろす
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=RELEASE_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # ハンドを開く
+    l_gripper.set_start_state_to_current_state()
+    robot_state = RobotState(robot_model)
+    robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_OPEN])
+    l_gripper.set_goal_state(robot_state=robot_state)
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_gripper,
+        logger,
+        single_plan_parameters=gripper_plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # ハンドを持ち上げる
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(
+        header=Header(frame_id="base_link"), pose=PRE_AND_POST_RELEASE_POSE),
+                         pose_link="l_link7")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # SRDFに定義されている"l_arm_init_pose"の姿勢にする
+    l_arm.set_start_state_to_current_state()
+    l_arm.set_goal_state(configuration_name="l_arm_init_pose")
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_arm,
+        logger,
+        single_plan_parameters=plan_request_params,
+        # sleep_time=3.0,
+    )
+
+    # ハンドを閉じる
+    l_gripper.set_start_state_to_current_state()
+    robot_state = RobotState(robot_model)
+    robot_state.set_joint_group_positions("l_gripper_group", [GRIPPER_CLOSE])
+    l_gripper.set_goal_state(robot_state=robot_state)
+    # plan to goal
+    plan_and_execute(
+        sciurus17,
+        l_gripper,
+        logger,
+        single_plan_parameters=gripper_plan_request_params,
+        # sleep_time=3.0,
+    )
+
     # Finishe with error. Related Issue
     # https://github.com/moveit/moveit2/issues/2693
     rclpy.shutdown()
