@@ -26,6 +26,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pick_and_place_left_arm = sciurus17_examples_py.pick_and_place_left_arm:main',
+            'gripper_control = sciurus17_examples_py.gripper_control:main',
         ],
     },
 )

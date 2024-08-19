@@ -16,7 +16,7 @@ plan_request_params:
   max_velocity_scaling_factor: 1.0
   max_acceleration_scaling_factor: 1.0
 
-ompl_rrtc:  # Namespace for individual plan request
+ompl_rrtc_default:  # Namespace for individual plan request
   plan_request_params:  # PlanRequestParameters similar to the ones that are used by the single pipeline planning of moveit_cpp
     planning_attempts: 1  # Number of attempts the planning pipeline tries to solve a given motion planning problem
     planning_pipeline: ompl  # Name of the pipeline that is being used
