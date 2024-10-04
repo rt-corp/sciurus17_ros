@@ -117,6 +117,7 @@ set(executable_list
   waist_control
   pick_and_place_right_arm_waist
   pick_and_place_left_arm
+  pick_and_place_tf
   point_cloud_detection
 )
 foreach(loop_var IN LISTS executable_list)
