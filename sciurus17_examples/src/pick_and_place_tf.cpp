@@ -129,9 +129,12 @@ private:
     const auto TF_ELAPSED_TIME = now.nanoseconds() - tf.stamp_.time_since_epoch().count();
     const auto TF_STOP_TIME = now.nanoseconds() - tf_past_.stamp_.time_since_epoch().count();
     const double TARGET_Z_MIN_LIMIT = 0.04;
+    const double TARGET_X_MIN_LIMIT = 0.13;
+    const double TARGET_X_MAX_LIMIT = 0.3;
 
-    // 検出された物体位置が低すぎる場合は掴まない
+    // 掴む物体位置を制限する
     if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) return;
+    if (tf.getOrigin().x() < TARGET_X_MIN_LIMIT || tf.getOrigin().x() > TARGET_X_MAX_LIMIT) return;
 
     // 検出されてから2秒以上経過した物体は掴まない
     if (TF_ELAPSED_TIME > FILTERING_TIME.count()) return;
@@ -168,8 +171,9 @@ private:
 
   void picking(tf2::Vector3 target_position)
   {
+    // グリッパ開閉角度
     const double GRIPPER_CLOSE = 0.0;
-    const double GRIPPER_OPEN = angles::from_degrees(40.0);
+    const double GRIPPER_OPEN = angles::from_degrees(50.0);
     const double GRIPPER_GRASP = angles::from_degrees(20.0);
 
     // 物体を置く位置
@@ -177,9 +181,11 @@ private:
     const double PLACE_POSITION_Y = 0.0;
     const double PLACE_POSITION_Z = 0.05;
 
+    // 物体位置のオフセット
     const double APPROACH_OFFSET_Z = 0.12;
     const double GRASP_OFFSET_Z = 0.07;
 
+    // 物体位置に応じて左右の腕を切り替え
     int current_arm = 0;
     if (target_position.y() > 0) {
       current_arm = LEFT_ARM_;
