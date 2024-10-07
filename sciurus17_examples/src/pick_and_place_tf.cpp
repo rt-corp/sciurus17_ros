@@ -75,8 +75,8 @@ public:
     move_group_r_gripper_->setMaxVelocityScalingFactor(1.0);
     move_group_r_gripper_->setMaxAccelerationScalingFactor(1.0);
 
-    // 把持対象を撮影するためカメラを下に向ける
-    init_pose();
+    // 姿勢を初期化
+    init_body();
 
     // 可動範囲を制限する
     moveit_msgs::msg::Constraints constraints;
@@ -149,18 +149,19 @@ private:
     picking(tf.getOrigin());
   }
 
-  void init_pose()
+  void init_body()
   {
+    const double INITIAL_YAW_ANGLE = angles::from_degrees(0.0);
+    const double INITIAL_PITCH_ANGLE = angles::from_degrees(-80.0);
+
     move_group_l_arm_->setNamedTarget("l_arm_waist_init_pose");
     move_group_l_arm_->move();
     move_group_r_arm_->setNamedTarget("r_arm_waist_init_pose");
     move_group_r_arm_->move();
-    move_group_neck_->setNamedTarget("neck_init_pose");
-    move_group_neck_->move();
 
     std::vector<double> joint_values;
-    joint_values.push_back(angles::from_degrees(0.0));
-    joint_values.push_back(angles::from_degrees(-80));
+    joint_values.push_back(INITIAL_YAW_ANGLE);
+    joint_values.push_back(INITIAL_PITCH_ANGLE);
     move_group_neck_->setJointValueTarget(joint_values);
     move_group_neck_->move();
   }
@@ -224,7 +225,7 @@ private:
       PLACE_POSITION_X, PLACE_POSITION_Y, PLACE_POSITION_Z + APPROACH_OFFSET_Z);
 
     // 初期姿勢に戻る
-    init_pose();
+    init_arm(current_arm);
 
     // ハンドを閉じる
     control_gripper(current_arm, GRIPPER_CLOSE);
@@ -259,6 +260,18 @@ private:
     if(current_arm == RIGHT_ARM_) {
       move_group_r_arm_->setPoseTarget(
         pose_presets::right_arm_downward(x, y, z));
+      move_group_r_arm_->move();
+    }
+  }
+
+  void init_arm(const int current_arm)
+  {
+    if(current_arm == LEFT_ARM_) {
+      move_group_l_arm_->setNamedTarget("l_arm_waist_init_pose");
+      move_group_l_arm_->move();
+    }
+    if(current_arm == RIGHT_ARM_) {
+      move_group_r_arm_->setNamedTarget("r_arm_waist_init_pose");
       move_group_r_arm_->move();
     }
   }
