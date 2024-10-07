@@ -95,7 +95,7 @@ public:
     move_group_r_arm_->setPathConstraints(constraints);
 
     tf_buffer_ =
-      std::make_unique<tf2_ros::Buffer>(this->get_clock());
+      std::make_unique<tf2_ros::Buffer>(this->get_clock(), 2s);
     tf_listener_ =
       std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
@@ -130,23 +130,23 @@ private:
     const auto TF_STOP_TIME = now.nanoseconds() - tf_past_.stamp_.time_since_epoch().count();
     const double TARGET_Z_MIN_LIMIT = 0.04;
 
-    // 現在時刻から2秒以内に受け取ったtfを使用
-    if (TF_ELAPSED_TIME < FILTERING_TIME.count()) {
-      double tf_diff = (tf_past_.getOrigin() - tf.getOrigin()).length();
-      // 把持対象の位置が停止していることを判定
-      if (tf_diff < DISTANCE_THRESHOLD) {
-        // 把持対象が3秒以上停止している場合ピッキング動作開始
-        if (TF_STOP_TIME > STOP_TIME_THRESHOLD.count()) {
-          // 把持対象が低すぎる場合は把持位置を調整
-          if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) {
-            tf.getOrigin().setZ(TARGET_Z_MIN_LIMIT);
-          }
-          picking(tf.getOrigin());
-        }
-      } else {
-        tf_past_ = tf;
-      }
+    // 検出された物体位置が低すぎる場合は掴まない
+    if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) return;
+
+    // 検出されてから2秒以上経過した物体は掴まない
+    if (TF_ELAPSED_TIME > FILTERING_TIME.count()) return;
+
+    // 動いている物体は掴まない
+    double tf_diff = (tf_past_.getOrigin() - tf.getOrigin()).length();
+    if (tf_diff > DISTANCE_THRESHOLD) {
+      tf_past_ = tf;
+      return;
     }
+
+    // 物体が3秒以上停止している場合ピッキング動作開始
+    if (TF_STOP_TIME < STOP_TIME_THRESHOLD.count()) return;
+
+    picking(tf.getOrigin());
   }
 
   void init_pose()
