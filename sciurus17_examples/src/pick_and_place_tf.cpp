@@ -25,7 +25,6 @@
 
 #include "angles/angles.h"
 #include "geometry_msgs/msg/pose.hpp"
-#include "geometry_msgs/msg/quaternion.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "moveit/move_group_interface/move_group_interface.h"
 #include "pose_presets.hpp"
@@ -183,7 +182,7 @@ private:
 
     // 物体位置のオフセット
     const double APPROACH_OFFSET_Z = 0.12;
-    const double GRASP_OFFSET_Z = 0.07;
+    const double GRASP_OFFSET_Z = 0.08;
 
     // 物体位置に応じて左右の腕を切り替え
     int current_arm = 0;
