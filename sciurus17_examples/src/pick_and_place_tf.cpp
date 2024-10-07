@@ -132,11 +132,17 @@ private:
     const double TARGET_X_MAX_LIMIT = 0.3;
 
     // 掴む物体位置を制限する
-    if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) return;
-    if (tf.getOrigin().x() < TARGET_X_MIN_LIMIT || tf.getOrigin().x() > TARGET_X_MAX_LIMIT) return;
+    if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) {
+      return;
+    }
+    if (tf.getOrigin().x() < TARGET_X_MIN_LIMIT || tf.getOrigin().x() > TARGET_X_MAX_LIMIT) {
+      return;
+    }
 
     // 検出されてから2秒以上経過した物体は掴まない
-    if (TF_ELAPSED_TIME > FILTERING_TIME.count()) return;
+    if (TF_ELAPSED_TIME > FILTERING_TIME.count()) {
+      return;
+    }
 
     // 動いている物体は掴まない
     double tf_diff = (tf_past_.getOrigin() - tf.getOrigin()).length();
@@ -146,7 +152,9 @@ private:
     }
 
     // 物体が3秒以上停止している場合ピッキング動作開始
-    if (TF_STOP_TIME < STOP_TIME_THRESHOLD.count()) return;
+    if (TF_STOP_TIME < STOP_TIME_THRESHOLD.count()) {
+      return;
+    }
 
     picking(tf.getOrigin());
   }
@@ -197,36 +205,42 @@ private:
     control_gripper(current_arm, GRIPPER_CLOSE);
 
     // 掴む準備をする
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       target_position.x(), target_position.y(), target_position.z() + APPROACH_OFFSET_Z);
 
     // ハンドを開く
     control_gripper(current_arm, GRIPPER_OPEN);
 
     // 掴みに行く
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       target_position.x(), target_position.y(), target_position.z() + GRASP_OFFSET_Z);
 
     // ハンドを閉じる
     control_gripper(current_arm, GRIPPER_GRASP);
 
     // 持ち上げる
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       target_position.x(), target_position.y(), target_position.z() + APPROACH_OFFSET_Z);
 
     // 移動する
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       PLACE_POSITION_X, PLACE_POSITION_Y, PLACE_POSITION_Z + APPROACH_OFFSET_Z);
 
     // 下ろす
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       PLACE_POSITION_X, PLACE_POSITION_Y, PLACE_POSITION_Z + GRASP_OFFSET_Z);
 
     // ハンドを開く
     control_gripper(current_arm, GRIPPER_OPEN);
 
     // 少しだけハンドを持ち上げる
-    control_arm(current_arm,
+    control_arm(
+      current_arm,
       PLACE_POSITION_X, PLACE_POSITION_Y, PLACE_POSITION_Z + APPROACH_OFFSET_Z);
 
     // 初期姿勢に戻る
@@ -241,12 +255,12 @@ private:
   {
     auto joint_values = move_group_l_gripper_->getCurrentJointValues();
 
-    if(current_arm == LEFT_ARM_) {
+    if (current_arm == LEFT_ARM_) {
       joint_values[0] = -angle;
       move_group_l_gripper_->setJointValueTarget(joint_values);
       move_group_l_gripper_->move();
     }
-    if(current_arm == RIGHT_ARM_) {
+    if (current_arm == RIGHT_ARM_) {
       joint_values[0] = angle;
       move_group_r_gripper_->setJointValueTarget(joint_values);
       move_group_r_gripper_->move();
@@ -257,12 +271,12 @@ private:
   void control_arm(
     const int current_arm, const double x, const double y, const double z)
   {
-    if(current_arm == LEFT_ARM_) {
+    if (current_arm == LEFT_ARM_) {
       move_group_l_arm_->setPoseTarget(
         pose_presets::left_arm_downward(x, y, z));
       move_group_l_arm_->move();
     }
-    if(current_arm == RIGHT_ARM_) {
+    if (current_arm == RIGHT_ARM_) {
       move_group_r_arm_->setPoseTarget(
         pose_presets::right_arm_downward(x, y, z));
       move_group_r_arm_->move();
@@ -271,11 +285,11 @@ private:
 
   void init_arm(const int current_arm)
   {
-    if(current_arm == LEFT_ARM_) {
+    if (current_arm == LEFT_ARM_) {
       move_group_l_arm_->setNamedTarget("l_arm_waist_init_pose");
       move_group_l_arm_->move();
     }
-    if(current_arm == RIGHT_ARM_) {
+    if (current_arm == RIGHT_ARM_) {
       move_group_r_arm_->setNamedTarget("r_arm_waist_init_pose");
       move_group_r_arm_->move();
     }
