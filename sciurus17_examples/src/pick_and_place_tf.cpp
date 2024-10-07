@@ -174,7 +174,7 @@ private:
     // 物体を置く位置
     const double PLACE_POSITION_X = 0.35;
     const double PLACE_POSITION_Y = 0.0;
-    const double PLACE_POSITION_Z = 0.5;
+    const double PLACE_POSITION_Z = 0.05;
 
     const double APPROACH_OFFSET_Z = 0.12;
     const double GRASP_OFFSET_Z = 0.07;
