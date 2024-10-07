@@ -569,18 +569,6 @@ Visualization Manager:
           Value: false
         r_link7:
           Value: false
-        target_0:
-          Value: true
-        target_1:
-          Value: false
-        target_2:
-          Value: false
-        target_3:
-          Value: false
-        target_4:
-          Value: false
-        target_5:
-          Value: true
         world:
           Value: false
       Marker Scale: 1
@@ -629,18 +617,6 @@ Visualization Manager:
                               {}
                             r_gripperB_link:
                               {}
-            target_0:
-              {}
-            target_1:
-              {}
-            target_2:
-              {}
-            target_3:
-              {}
-            target_4:
-              {}
-            target_5:
-              {}
           dummy_mimic_fix_l:
             {}
           dummy_mimic_fix_r:
