@@ -80,29 +80,6 @@ def main(args=None):
     )
 
     for _ in range(2):
-        l_gripper.set_start_state_to_current_state()
-        robot_state = RobotState(robot_model)
-        robot_state.set_joint_group_positions("l_gripper_group", [L_GRIPPER_OPEN])
-        l_gripper.set_goal_state(robot_state=robot_state)
-        plan_and_execute(
-            sciurus17,
-            l_gripper,
-            logger,
-            single_plan_parameters=gripper_plan_request_params,
-        )
-
-        l_gripper.set_start_state_to_current_state()
-        robot_state = RobotState(robot_model)
-        robot_state.set_joint_group_positions("l_gripper_group", [L_GRIPPER_CLOSE])
-        l_gripper.set_goal_state(robot_state=robot_state)
-        plan_and_execute(
-            sciurus17,
-            l_gripper,
-            logger,
-            single_plan_parameters=gripper_plan_request_params,
-        )
-
-    for _ in range(2):
         r_gripper.set_start_state_to_current_state()
         robot_state = RobotState(robot_model)
         robot_state.set_joint_group_positions("r_gripper_group", [R_GRIPPER_OPEN])
@@ -121,6 +98,29 @@ def main(args=None):
         plan_and_execute(
             sciurus17,
             r_gripper,
+            logger,
+            single_plan_parameters=gripper_plan_request_params,
+        )
+
+    for _ in range(2):
+        l_gripper.set_start_state_to_current_state()
+        robot_state = RobotState(robot_model)
+        robot_state.set_joint_group_positions("l_gripper_group", [L_GRIPPER_OPEN])
+        l_gripper.set_goal_state(robot_state=robot_state)
+        plan_and_execute(
+            sciurus17,
+            l_gripper,
+            logger,
+            single_plan_parameters=gripper_plan_request_params,
+        )
+
+        l_gripper.set_start_state_to_current_state()
+        robot_state = RobotState(robot_model)
+        robot_state.set_joint_group_positions("l_gripper_group", [L_GRIPPER_CLOSE])
+        l_gripper.set_goal_state(robot_state=robot_state)
+        plan_and_execute(
+            sciurus17,
+            l_gripper,
             logger,
             single_plan_parameters=gripper_plan_request_params,
         )
