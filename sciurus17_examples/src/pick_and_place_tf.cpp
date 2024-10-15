@@ -103,7 +103,8 @@ public:
   }
 
 private:
-  enum class ArmSide {
+  enum class ArmSide
+  {
     LEFT,
     RIGHT
   };
