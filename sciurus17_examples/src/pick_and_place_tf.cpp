@@ -103,6 +103,11 @@ public:
   }
 
 private:
+  enum class ArmSide {
+    LEFT,
+    RIGHT
+  };
+
   void on_timer()
   {
     // target_0のtf位置姿勢を取得
@@ -120,16 +125,16 @@ private:
     }
 
     rclcpp::Time now = this->get_clock()->now();
-    const std::chrono::nanoseconds FILTERING_TIME = 2s;
-    const std::chrono::nanoseconds STOP_TIME_THRESHOLD = 3s;
-    const double DISTANCE_THRESHOLD = 0.01;
+    constexpr std::chrono::nanoseconds FILTERING_TIME = 2s;
+    constexpr std::chrono::nanoseconds STOP_TIME_THRESHOLD = 3s;
+    constexpr double DISTANCE_THRESHOLD = 0.01;
     tf2::Stamped<tf2::Transform> tf;
     tf2::convert(tf_msg, tf);
     const auto TF_ELAPSED_TIME = now.nanoseconds() - tf.stamp_.time_since_epoch().count();
     const auto TF_STOP_TIME = now.nanoseconds() - tf_past_.stamp_.time_since_epoch().count();
-    const double TARGET_Z_MIN_LIMIT = 0.04;
-    const double TARGET_X_MIN_LIMIT = 0.13;
-    const double TARGET_X_MAX_LIMIT = 0.3;
+    constexpr double TARGET_Z_MIN_LIMIT = 0.04;
+    constexpr double TARGET_X_MIN_LIMIT = 0.13;
+    constexpr double TARGET_X_MAX_LIMIT = 0.3;
 
     // 掴む物体位置を制限する
     if (tf.getOrigin().z() < TARGET_Z_MIN_LIMIT) {
@@ -179,25 +184,25 @@ private:
   void picking(tf2::Vector3 target_position)
   {
     // グリッパ開閉角度
-    const double GRIPPER_CLOSE = 0.0;
+    constexpr double GRIPPER_CLOSE = 0.0;
     const double GRIPPER_OPEN = angles::from_degrees(50.0);
     const double GRIPPER_GRASP = angles::from_degrees(20.0);
 
     // 物体を置く位置
-    const double PLACE_POSITION_X = 0.35;
-    const double PLACE_POSITION_Y = 0.0;
-    const double PLACE_POSITION_Z = 0.05;
+    constexpr double PLACE_POSITION_X = 0.35;
+    constexpr double PLACE_POSITION_Y = 0.0;
+    constexpr double PLACE_POSITION_Z = 0.05;
 
     // 物体位置のオフセット
-    const double APPROACH_OFFSET_Z = 0.12;
-    const double GRASP_OFFSET_Z = 0.08;
+    constexpr double APPROACH_OFFSET_Z = 0.12;
+    constexpr double GRASP_OFFSET_Z = 0.08;
 
     // 物体位置に応じて左右の腕を切り替え
-    int current_arm = 0;
+    ArmSide current_arm;
     if (target_position.y() > 0) {
-      current_arm = LEFT_ARM_;
+      current_arm = ArmSide::LEFT;
     } else {
-      current_arm = RIGHT_ARM_;
+      current_arm = ArmSide::RIGHT;
     }
 
     // 何かを掴んでいた時のためにハンドを開閉
@@ -251,16 +256,16 @@ private:
   }
 
   // グリッパ制御
-  void control_gripper(const int current_arm, const double angle)
+  void control_gripper(const ArmSide current_arm, const double angle)
   {
     auto joint_values = move_group_l_gripper_->getCurrentJointValues();
 
-    if (current_arm == LEFT_ARM_) {
+    if (current_arm == ArmSide::LEFT) {
       joint_values[0] = -angle;
       move_group_l_gripper_->setJointValueTarget(joint_values);
       move_group_l_gripper_->move();
     }
-    if (current_arm == RIGHT_ARM_) {
+    if (current_arm == ArmSide::RIGHT) {
       joint_values[0] = angle;
       move_group_r_gripper_->setJointValueTarget(joint_values);
       move_group_r_gripper_->move();
@@ -269,27 +274,27 @@ private:
 
   // アーム制御
   void control_arm(
-    const int current_arm, const double x, const double y, const double z)
+    const ArmSide current_arm, const double x, const double y, const double z)
   {
-    if (current_arm == LEFT_ARM_) {
+    if (current_arm == ArmSide::LEFT) {
       move_group_l_arm_->setPoseTarget(
         pose_presets::left_arm_downward(x, y, z));
       move_group_l_arm_->move();
     }
-    if (current_arm == RIGHT_ARM_) {
+    if (current_arm == ArmSide::RIGHT) {
       move_group_r_arm_->setPoseTarget(
         pose_presets::right_arm_downward(x, y, z));
       move_group_r_arm_->move();
     }
   }
 
-  void init_arm(const int current_arm)
+  void init_arm(const ArmSide current_arm)
   {
-    if (current_arm == LEFT_ARM_) {
+    if (current_arm == ArmSide::LEFT) {
       move_group_l_arm_->setNamedTarget("l_arm_waist_init_pose");
       move_group_l_arm_->move();
     }
-    if (current_arm == RIGHT_ARM_) {
+    if (current_arm == ArmSide::RIGHT) {
       move_group_r_arm_->setNamedTarget("r_arm_waist_init_pose");
       move_group_r_arm_->move();
     }
@@ -304,8 +309,6 @@ private:
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_{nullptr};
   rclcpp::TimerBase::SharedPtr timer_{nullptr};
   tf2::Stamped<tf2::Transform> tf_past_;
-  const int RIGHT_ARM_ = 1;
-  const int LEFT_ARM_ = 2;
 };
 
 int main(int argc, char ** argv)
