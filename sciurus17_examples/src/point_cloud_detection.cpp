@@ -151,7 +151,7 @@ private:
     sor.filter(*cloud);
 
     // フィルタリング後に点群がない場合はfalseを返す
-    if (cloud->size() <= 0) {
+    if (cloud->empty()) {
       RCLCPP_INFO(this->get_logger(), "No point cloud in the detection area.");
       return false;
     } else {
@@ -217,8 +217,8 @@ private:
       BLUE,
       COLOR_MAX
     };
-    const int CLUSTER_MAX = 10;
-    const int CLUSTER_COLOR[CLUSTER_MAX][COLOR_MAX] = {
+    constexpr int CLUSTER_MAX = 10;
+    constexpr int CLUSTER_COLOR[CLUSTER_MAX][COLOR_MAX] = {
       {230, 0, 18}, {243, 152, 18}, {255, 251, 0},
       {143, 195, 31}, {0, 153, 68}, {0, 158, 150},
       {0, 160, 233}, {0, 104, 183}, {29, 32, 136},
