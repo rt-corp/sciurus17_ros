@@ -227,6 +227,7 @@ private:
 
     for (const auto & point_indices : cluster_indices) {
       auto cloud_cluster = std::make_shared<pcl::PointCloud<pcl::PointXYZRGB>>();
+      cloud_cluster->points.reserve(cloud_input->points.size());
       // 点群の色を変更
       for (const auto & point_i : point_indices.indices) {
         cloud_input->points[point_i].r = CLUSTER_COLOR[cluster_i][RED];
