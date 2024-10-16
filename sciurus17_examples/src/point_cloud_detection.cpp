@@ -130,7 +130,7 @@ private:
 
   bool preprocessing(std::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> & cloud)
   {
-    // X軸方向0.08~0.3m以外の点群を削除
+    // X軸方向0.08~0.5m以外の点群を削除
     pcl::PassThrough<pcl::PointXYZRGB> pass;
     pass.setInputCloud(cloud);
     pass.setFilterFieldName("x");

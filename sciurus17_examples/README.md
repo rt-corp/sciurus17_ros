@@ -211,7 +211,8 @@ ros2 launch sciurus17_examples chest_camera_tracking.launch.py
 点群から物体を検出して掴むコード例です。
 
 検出された物体位置はtfのフレームとして配信されます。
-tfの`frame_id`は検出された順に`target_0`、`target_1`、`target_2`…に設定されます。掴む対象は`target_0`に設定されています。
+tfの`frame_id`は検出された順に`target_0`、`target_1`、`target_2`…に設定されます。
+掴む対象はSciurus17前方の0.3 mの範囲にある`target_0`に設定されています。
 物体検出には[Point Cloud Library](https://pointclouds.org/)を使用しています。
 
 次のコマンドを実行します
