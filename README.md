@@ -57,8 +57,6 @@ cd ~/ros2_ws/src
 git clone -b ros2 https://github.com/rt-net/rt_manipulators_cpp.git
 git clone -b ros2 https://github.com/rt-net/sciurus17_ros.git
 git clone -b ros2 https://github.com/rt-net/sciurus17_description.git
-# To run examples with camera
-git clone -b 5.1.4 https://github.com/ros-perception/image_common.git
 
 # Install dependencies
 rosdep install -r -y -i --from-paths .
