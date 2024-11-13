@@ -54,7 +54,7 @@ source /opt/ros/jazzy/setup.bash
 # Download packages
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
-git clone -b feature/support-jazzy https://github.com/rt-net/rt_manipulators_cpp.git
+git clone -b ros2 https://github.com/rt-net/rt_manipulators_cpp.git
 git clone -b ros2 https://github.com/rt-net/sciurus17_ros.git
 git clone -b ros2 https://github.com/rt-net/sciurus17_description.git
 # To run examples with camera
