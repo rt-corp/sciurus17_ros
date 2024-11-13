@@ -46,9 +46,6 @@ ROS 2 package suite of Sciurus17.
 ## Installation
 
 ### Build from source
-2024 July 18現在、カメラを使ったサンプルで使用しているusb_camを正常に実行するためには
-aptに登録されているものよりも最新のimage_commonのバージョンを使用する必要があります
-そのためsciurus17関連のパッケージと合わせてソースからビルドします
 
 ```sh
 # Setup ROS environment
