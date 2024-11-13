@@ -60,6 +60,7 @@ git clone -b ros2 https://github.com/rt-net/sciurus17_description.git
 
 # Install dependencies
 rosdep install -r -y -i --from-paths .
+sudo apt install libpcl-dev
 
 # Build & Install
 cd ~/ros2_ws
