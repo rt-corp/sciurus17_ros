@@ -1,13 +1,13 @@
+from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
 from moveit_configs_utils.launches import generate_move_group_launch
 from moveit_configs_utils.launches import generate_moveit_rviz_launch
-from moveit_configs_utils.launches import generate_static_virtual_joint_tfs_launch
 from moveit_configs_utils.launches import generate_rsp_launch
+from moveit_configs_utils.launches import generate_static_virtual_joint_tfs_launch
 from sciurus17_description.robot_description_loader import RobotDescriptionLoader
-from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
@@ -20,7 +20,8 @@ def generate_launch_description():
             'loaded_description',
             default_value=description_loader.load(),
             description='Set robot_description text.  \
-                        It is recommended to use RobotDescriptionLoader() in sciurus17_description.'
+                        It is recommended to use RobotDescriptionLoader() \
+                            in sciurus17_description.'
         )
     )
 
@@ -34,12 +35,12 @@ def generate_launch_description():
     )
 
     moveit_config = (
-        MoveItConfigsBuilder("sciurus17")
+        MoveItConfigsBuilder('sciurus17')
         .planning_scene_monitor(
             publish_robot_description=True,
             publish_robot_description_semantic=True,
         )
-        .planning_pipelines(pipelines=["ompl"])
+        .planning_pipelines(pipelines=['ompl'])
         .to_moveit_configs()
         )
 
@@ -48,7 +49,7 @@ def generate_launch_description():
         }
 
     moveit_config.move_group_capabilities = {
-        "capabilities": ""
+        'capabilities': ''
         }
 
     # Move group

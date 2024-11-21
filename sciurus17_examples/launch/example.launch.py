@@ -15,12 +15,12 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
-from sciurus17_description.robot_description_loader import RobotDescriptionLoader
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch_ros.actions import SetParameter
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.actions import SetParameter
+from sciurus17_description.robot_description_loader import RobotDescriptionLoader
 import yaml
 
 
