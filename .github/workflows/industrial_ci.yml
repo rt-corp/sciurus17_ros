@@ -11,13 +11,13 @@ on:
 
 env:
   UPSTREAM_WORKSPACE: .ci.rosinstall
-
+  BEFORE_INSTALL_TARGET_DEPENDENCIES: "sudo apt-get update -qq && sudo apt-get -qq install -y libpcl-dev"
 jobs:
   industrial_ci:
     strategy:
       matrix:
         env:
-          - { ROS_DISTRO: humble, ROS_REPO: ros, BEFORE_RUN_TARGET_TEST_EMBED: "ici_with_unset_variables source /root/target_ws/install/setup.bash" }
+          - { ROS_DISTRO: jazzy, ROS_REPO: ros, BEFORE_RUN_TARGET_TEST_EMBED: "ici_with_unset_variables source /root/target_ws/install/setup.bash" }
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
