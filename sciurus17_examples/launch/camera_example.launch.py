@@ -1,4 +1,4 @@
-# Copyright 2023 RT Corporation
+# Copyright 2024 RT Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -57,10 +57,9 @@ def generate_launch_description():
     kinematics_yaml = load_yaml('sciurus17_moveit_config', 'config/kinematics.yaml')
 
     declare_example_name = DeclareLaunchArgument(
-        'example', default_value='gripper_control',
+        'example', default_value='point_cloud_detection',
         description=('Set an example executable name: '
-                     '[gripper_control, neck_control, waist_control,'
-                     'pick_and_place_right_arm_waist, pick_and_place_left_arm]')
+                     '[point_cloud_detection]')
     )
 
     declare_use_sim_time = DeclareLaunchArgument(
@@ -68,17 +67,23 @@ def generate_launch_description():
         description=('Set true when using the gazebo simulator.')
     )
 
-    example_node = Node(name=[LaunchConfiguration('example'), '_node'],
+    picking_node = Node(name='pick_and_place_tf',
                         package='sciurus17_examples',
-                        executable=LaunchConfiguration('example'),
+                        executable='pick_and_place_tf',
                         output='screen',
                         parameters=[{'robot_description': description_loader.load()},
                                     robot_description_semantic,
                                     kinematics_yaml])
 
+    detection_node = Node(name=[LaunchConfiguration('example'), '_node'],
+                          package='sciurus17_examples',
+                          executable=LaunchConfiguration('example'),
+                          output='screen')
+
     return LaunchDescription([
         declare_use_sim_time,
         SetParameter(name='use_sim_time', value=LaunchConfiguration('use_sim_time')),
+        picking_node,
         declare_example_name,
-        example_node
+        detection_node
     ])

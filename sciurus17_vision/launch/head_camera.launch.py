@@ -27,8 +27,8 @@ def generate_launch_description():
                 'camera_namespace': '',
                 'camera_name': 'head_camera',
                 'device_type': 'd415',
-                'rgb_camera.profile': '640x360x30',
-                'depth_module.profile': '640x360x30',
+                'rgb_camera.color_profile': '640x360x30',
+                'depth_module.depth_profile': '640x360x30',
                 'pointcloud.enable': 'true',
                 'align_depth.enable': 'true',
             }.items()
