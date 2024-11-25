@@ -9,6 +9,8 @@
     - [3. move\_groupとcontrollerを起動する](#3-move_groupとcontrollerを起動する)
   - [準備 (Gazeboを使う場合)](#準備-gazeboを使う場合)
     - [1. move\_groupとGazeboを起動する](#1-move_groupとgazeboを起動する)
+  - [準備（Mock Componentsを使う場合）](#準備mock-componentsを使う場合)
+    - [1. move\_groupとcontrollerを起動する](#1-move_groupとcontrollerを起動する)
   - [サンプルプログラムを実行する](#サンプルプログラムを実行する)
     - [Gazeboでサンプルプログラムを実行する場合](#gazeboでサンプルプログラムを実行する場合)
   - [Examples](#examples)
@@ -63,6 +65,19 @@ ros2 launch sciurus17_gazebo sciurus17_with_table.launch.py
 ```sh
 ros2 launch sciurus17_gazebo sciurus17_with_table.launch.py use_head_camera:=false use_chest_camera:=false
 ```
+
+## 準備（Mock Componentsを使う場合）
+
+### 1. move_groupとcontrollerを起動する
+
+次のコマンドでmove_group (`sciurus17_moveit_config`)と
+controller (`sciurus17_control`)を起動します。
+
+```sh
+ros2 launch sciurus17_examples demo.launch.py use_mock_components:=true
+```
+
+Mock Componentsではカメラを使ったサンプルを実行することはできません。
 
 ## サンプルプログラムを実行する
 
