@@ -25,6 +25,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'neck_control = sciurus17_examples_py.neck_control:main',
             'pick_and_place_left_arm = sciurus17_examples_py.pick_and_place_left_arm:main',
             'gripper_control = sciurus17_examples_py.gripper_control:main',
         ],
