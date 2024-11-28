@@ -12,28 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
 from ament_index_python.packages import get_package_share_directory
-from sciurus17_description.robot_description_loader import RobotDescriptionLoader
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch_ros.actions import SetParameter
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-import yaml
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
-from moveit_configs_utils.launches import generate_move_group_launch
-from moveit_configs_utils.launches import generate_moveit_rviz_launch
-from moveit_configs_utils.launches import generate_static_virtual_joint_tfs_launch
-from moveit_configs_utils.launches import generate_rsp_launch
 from sciurus17_description.robot_description_loader import RobotDescriptionLoader
-from ament_index_python.packages import get_package_share_directory
-
-
-from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
@@ -41,49 +26,38 @@ def generate_launch_description():
     description_loader = RobotDescriptionLoader()
 
     ld.add_action(
-        DeclareLaunchArgument(
-            'loaded_description',
-            default_value=description_loader.load(),
-            description='Set robot_description text.  \
-                        It is recommended to use RobotDescriptionLoader() in sciurus17_description.'
-        )
-    )
+        DeclareLaunchArgument('loaded_description',
+                              default_value=description_loader.load(),
+                              description='Set robot_description text.  \
+                        It is recommended to use RobotDescriptionLoader() \
+                        in sciurus17_description.'))
 
-    moveit_config = (
-        MoveItConfigsBuilder("sciurus17")
-        .planning_scene_monitor(
-            publish_robot_description=True,
-            publish_robot_description_semantic=True,
-        )
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .planning_pipelines(pipelines=["ompl"])
-        .moveit_cpp(
-            file_path=get_package_share_directory("sciurus17_examples_py")
-            + "/config/sciurus17_moveit_py_examples.yaml"
-        )
-        .to_moveit_configs()
-        )
+    moveit_config = (MoveItConfigsBuilder('sciurus17').planning_scene_monitor(
+        publish_robot_description=True,
+        publish_robot_description_semantic=True,
+    ).trajectory_execution(file_path='config/moveit_controllers.yaml').planning_pipelines(
+        pipelines=['ompl']).moveit_cpp(
+            file_path=get_package_share_directory('sciurus17_examples_py') +
+            '/config/sciurus17_moveit_py_examples.yaml').to_moveit_configs())
 
     moveit_config.robot_description = {
         'robot_description': LaunchConfiguration('loaded_description')
-        }
+    }
 
-    moveit_config.move_group_capabilities = {
-        "capabilities": ""
-        }
+    moveit_config.move_group_capabilities = {'capabilities': ''}
 
     declare_example_name = DeclareLaunchArgument(
-        'example', default_value='gripper_control',
+        'example',
+        default_value='gripper_control',
         description=('Set an example executable name: '
                      '[gripper_control, neck_control, waist_control,'
-                     'pick_and_place_right_arm_waist, pick_and_place_left_arm]')
-    )
+                     'pick_and_place_right_arm_waist, pick_and_place_left_arm]'))
 
     example_node = Node(
         name=[LaunchConfiguration('example'), '_node'],
-                        package='sciurus17_examples_py',
-                        executable=LaunchConfiguration('example'),
-                        output='screen',
+        package='sciurus17_examples_py',
+        executable=LaunchConfiguration('example'),
+        output='screen',
         parameters=[moveit_config.to_dict()],
     )
 
