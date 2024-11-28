@@ -124,7 +124,7 @@ def main(args=None):
         logger,
         single_plan_parameters=plan_request_params,
     )
-    
+
     neck.set_start_state_to_current_state()
     neck.set_goal_state(configuration_name='neck_init_pose')
     plan_and_execute(
