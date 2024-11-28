@@ -21,6 +21,7 @@
     - [pick\_and\_place\_left\_arm](#pick_and_place_left_arm)
     - [head\_camera\_tracking](#head_camera_tracking)
     - [chest\_camera\_tracking](#chest_camera_tracking)
+    - [point\_cloud\_detection](#point_cloud_detection)
 
 ## 準備（実機を使う場合）
 
@@ -101,25 +102,14 @@ ros2 launch sciurus17_examples example.launch.py example:='gripper_control' use_
 
 `demo.launch`を実行している状態で各サンプルを実行できます。
 
-- [sciurus17\_examples](#sciurus17_examples)
-  - [準備（実機を使う場合）](#準備実機を使う場合)
-    - [1. Sciurus17本体をPCに接続する](#1-sciurus17本体をpcに接続する)
-    - [2. USB通信ポートの接続を確認する](#2-usb通信ポートの接続を確認する)
-    - [3. move\_groupとcontrollerを起動する](#3-move_groupとcontrollerを起動する)
-  - [準備 (Gazeboを使う場合)](#準備-gazeboを使う場合)
-    - [1. move\_groupとGazeboを起動する](#1-move_groupとgazeboを起動する)
-  - [準備（Mock Componentsを使う場合）](#準備mock-componentsを使う場合)
-    - [1. move\_groupとcontrollerを起動する](#1-move_groupとcontrollerを起動する)
-  - [サンプルプログラムを実行する](#サンプルプログラムを実行する)
-    - [Gazeboでサンプルプログラムを実行する場合](#gazeboでサンプルプログラムを実行する場合)
-  - [Examples](#examples)
-    - [gripper\_control](#gripper_control)
-    - [neck\_control](#neck_control)
-    - [waist\_control](#waist_control)
-    - [pick\_and\_place\_right\_arm\_waist](#pick_and_place_right_arm_waist)
-    - [pick\_and\_place\_left\_arm](#pick_and_place_left_arm)
-    - [head\_camera\_tracking](#head_camera_tracking)
-    - [chest\_camera\_tracking](#chest_camera_tracking)
+- [gripper\_control](#gripper_control)
+- [neck\_control](#neck_control)
+- [waist\_control](#waist_control)
+- [pick\_and\_place\_right\_arm\_waist](#pick_and_place_right_arm_waist)
+- [pick\_and\_place\_left\_arm](#pick_and_place_left_arm)
+- [head\_camera\_tracking](#head_camera_tracking)
+- [chest\_camera\_tracking](#chest_camera_tracking)
+- [point\_cloud\_detection](#point_cloud_detection)
 
 実行できるサンプルの一覧は、`example.launch.py`にオプション`-s`を付けて実行することで表示できます。
 
@@ -225,6 +215,24 @@ Gazeboで実行する場合は動作環境によってうまく追従しない�
 
 ```sh
 ros2 launch sciurus17_examples chest_camera_tracking.launch.py
+```
+
+[back to example list](#examples)
+
+---
+
+### point_cloud_detection
+
+点群から物体を検出して掴むコード例です。
+
+検出された物体位置はtfのフレームとして配信されます。
+tfの`frame_id`は検出された順に`target_0`、`target_1`、`target_2`…に設定されます。
+掴む対象はSciurus17前方の0.3 mの範囲にある`target_0`に設定されています。
+物体検出には[Point Cloud Library](https://pointclouds.org/)を使用しています。
+
+次のコマンドを実行します
+```sh
+ros2 launch sciurus17_examples camera_example.launch.py example:='point_cloud_detection'
 ```
 
 [back to example list](#examples)
