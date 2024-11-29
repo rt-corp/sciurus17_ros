@@ -119,7 +119,7 @@ ros2 launch sciurus17_examples_py example.launch.py -s
 次のコマンドを実行します。
 
 ```sh
-ros2 launch sciurus17_examples example.launch.py example:='gripper_control'
+ros2 launch sciurus17_examples_py example.launch.py example:='gripper_control'
 ```
 
 [back to example list](#examples)
@@ -133,7 +133,7 @@ ros2 launch sciurus17_examples example.launch.py example:='gripper_control'
 次のコマンドを実行します。
 
 ```sh
-ros2 launch sciurus17_examples example.launch.py example:='neck_control'
+ros2 launch sciurus17_examples_py example.launch.py example:='neck_control'
 ```
 
 [back to example list](#examples)
@@ -147,7 +147,7 @@ ros2 launch sciurus17_examples example.launch.py example:='neck_control'
 次のコマンドを実行します。
 
 ```sh
-ros2 launch sciurus17_examples example.launch.py example:='waist_control'
+ros2 launch sciurus17_examples_py example.launch.py example:='waist_control'
 ```
 
 [back to example list](#examples)
@@ -161,7 +161,7 @@ ros2 launch sciurus17_examples example.launch.py example:='waist_control'
 次のコマンドを実行します。
 
 ```sh
-ros2 launch sciurus17_examples example.launch.py example:='pick_and_place_right_arm_waist'
+ros2 launch sciurus17_examples_py example.launch.py example:='pick_and_place_right_arm_waist'
 ```
 
 [back to example list](#examples)
@@ -175,7 +175,7 @@ ros2 launch sciurus17_examples example.launch.py example:='pick_and_place_right_
 次のコマンドを実行します。
 
 ```sh
-ros2 launch sciurus17_examples example.launch.py example:='pick_and_place_left_arm'
+ros2 launch sciurus17_examples_py example.launch.py example:='pick_and_place_left_arm'
 ```
 
 [back to example list](#examples)
