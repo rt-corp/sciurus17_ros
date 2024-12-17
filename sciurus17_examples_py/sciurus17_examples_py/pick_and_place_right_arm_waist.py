@@ -223,7 +223,7 @@ def main(args=None):
         single_plan_parameters=gripper_plan_request_params,
     )
 
-    # Finishe with error. Related Issue
+    # Finish with error. Related Issue
     # https://github.com/moveit/moveit2/issues/2693
     rclpy.shutdown()
 
