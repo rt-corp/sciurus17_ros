@@ -66,7 +66,7 @@ def main(args=None):
     GRASP_POSE = Pose(position=Point(x=0.25, y=0.0, z=0.12),
                       orientation=Quaternion(x=0.707, y=0.0, z=0.0, w=0.707))    # downward
     PRE_AND_POST_GRASP_POSE = copy.deepcopy(GRASP_POSE)
-    PRE_AND_POST_GRASP_POSE.position.z += LIFTING_HEIFHT
+    PRE_AND_POST_GRASP_POSE.position.z = LIFTING_HEIFHT
     # 物体を置く位置
     RELEASE_POSE = Pose(position=Point(x=0.35, y=0.0, z=0.12),
                         orientation=Quaternion(x=0.707, y=0.0, z=0.0, w=0.707))    # downward
