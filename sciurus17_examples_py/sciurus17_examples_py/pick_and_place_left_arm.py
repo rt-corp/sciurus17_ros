@@ -68,7 +68,7 @@ def main(args=None):
     RELEASE_POSE = Pose(position=Point(x=0.35, y=0.0, z=0.12),
                         orientation=Quaternion(x=-0.707, y=0.0, z=0.0, w=0.707))    # downward
     PRE_AND_POST_RELEASE_POSE = copy.deepcopy(RELEASE_POSE)
-    PRE_AND_POST_RELEASE_POSE.position.z += LIFTING_HEIFHT
+    PRE_AND_POST_RELEASE_POSE.position.z = LIFTING_HEIFHT
 
     # SRDFに定義されている'l_arm_init_pose'の姿勢にする
     l_arm.set_start_state_to_current_state()
