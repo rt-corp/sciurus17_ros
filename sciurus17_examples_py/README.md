@@ -1,4 +1,4 @@
-# sciurus17_examples
+# sciurus17_examples_py
 
 このパッケージはSciurus17 ROS 2パッケージのPythonサンプルコード集です。
 
