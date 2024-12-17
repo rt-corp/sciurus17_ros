@@ -2,7 +2,7 @@
 
 このパッケージはSciurus17 ROS 2パッケージのPythonサンプルコード集です。
 
-- [sciurus17\_examples](#sciurus17_examples)
+- [sciurus17\_examples\_py](#sciurus17_examples_py)
   - [準備（実機を使う場合）](#準備実機を使う場合)
     - [1. Sciurus17本体をPCに接続する](#1-sciurus17本体をpcに接続する)
     - [2. USB通信ポートの接続を確認する](#2-usb通信ポートの接続を確認する)
