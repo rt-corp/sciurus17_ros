@@ -65,6 +65,7 @@ def main(args=None):
         robot_state = scene.current_state
         joint_values = robot_state.get_joint_group_positions('waist_group')
 
+    # 腰を左に向ける
     joint_values[0] = math.radians(45.0)
     waist.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -77,6 +78,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 腰を右に向ける
     joint_values[0] = math.radians(-45.0)
     waist.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -89,6 +91,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 'waist_init_pose'に戻す
     waist.set_start_state_to_current_state()
     waist.set_goal_state(configuration_name='waist_init_pose')
     plan_and_execute(

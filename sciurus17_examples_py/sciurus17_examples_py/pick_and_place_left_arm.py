@@ -94,9 +94,10 @@ def main(args=None):
 
     # 物体の上に腕を伸ばす
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=PRE_AND_POST_GRASP_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = PRE_AND_POST_GRASP_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,
@@ -106,9 +107,10 @@ def main(args=None):
 
     # 掴みに行く
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=GRASP_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = GRASP_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,
@@ -130,9 +132,10 @@ def main(args=None):
 
     # 持ち上げる
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=PRE_AND_POST_GRASP_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = PRE_AND_POST_GRASP_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,
@@ -142,9 +145,10 @@ def main(args=None):
 
     # 移動する
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=PRE_AND_POST_RELEASE_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = PRE_AND_POST_RELEASE_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,
@@ -154,9 +158,10 @@ def main(args=None):
 
     # 下ろす
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=RELEASE_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = RELEASE_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,
@@ -178,9 +183,10 @@ def main(args=None):
 
     # ハンドを持ち上げる
     l_arm.set_start_state_to_current_state()
-    l_arm.set_goal_state(pose_stamped_msg=PoseStamped(header=Header(frame_id='base_link'),
-                                                      pose=PRE_AND_POST_RELEASE_POSE),
-                         pose_link='l_link7')
+    goal_pose = PoseStamped()
+    goal_pose.header.frame_id='base_link'
+    goal_pose.pose = PRE_AND_POST_RELEASE_POSE
+    l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
         sciurus17,
         l_arm,

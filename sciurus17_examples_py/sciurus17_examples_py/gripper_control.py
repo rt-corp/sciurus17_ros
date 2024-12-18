@@ -75,6 +75,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 右グリッパ開閉
     for _ in range(2):
         r_gripper.set_start_state_to_current_state()
         robot_state = RobotState(robot_model)
@@ -98,6 +99,7 @@ def main(args=None):
             single_plan_parameters=gripper_plan_request_params,
         )
 
+    # 左グリッパ開閉
     for _ in range(2):
         l_gripper.set_start_state_to_current_state()
         robot_state = RobotState(robot_model)

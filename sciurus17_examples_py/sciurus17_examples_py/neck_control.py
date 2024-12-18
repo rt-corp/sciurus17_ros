@@ -65,6 +65,7 @@ def main(args=None):
         robot_state = scene.current_state
         joint_values = robot_state.get_joint_group_positions('neck_group')
 
+    # 首を左に向ける
     joint_values[0] = math.radians(45.0)
     neck.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -77,6 +78,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 首を右に向ける
     joint_values[0] = math.radians(-45.0)
     neck.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -89,6 +91,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 首を前に向ける
     joint_values[0] = math.radians(0.0)
     neck.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -101,6 +104,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 首を上に向ける
     joint_values[1] = math.radians(45.0)
     neck.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -113,6 +117,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 首を下に向ける
     joint_values[1] = math.radians(-45.0)
     neck.set_start_state_to_current_state()
     robot_state = RobotState(robot_model)
@@ -125,6 +130,7 @@ def main(args=None):
         single_plan_parameters=plan_request_params,
     )
 
+    # 'neck_init_pose'に戻す
     neck.set_start_state_to_current_state()
     neck.set_goal_state(configuration_name='neck_init_pose')
     plan_and_execute(
