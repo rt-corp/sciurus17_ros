@@ -17,10 +17,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-from launch_ros.actions import SetParameter
 from moveit_configs_utils import MoveItConfigsBuilder
 from sciurus17_description.robot_description_loader import RobotDescriptionLoader
-from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -60,7 +58,7 @@ def generate_launch_description():
     # 下記Issue対応のためここでパラメータを設定する
     # https://github.com/moveit/moveit2/issues/2940#issuecomment-2401302214
     config_dict = moveit_config.to_dict()
-    config_dict.update({'use_sim_time':LaunchConfiguration('use_sim_time')})
+    config_dict.update({'use_sim_time': LaunchConfiguration('use_sim_time')})
 
     example_node = Node(
         name=[LaunchConfiguration('example'), '_node'],
