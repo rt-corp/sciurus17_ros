@@ -20,22 +20,24 @@ from launch_ros.actions import Node
 from launch_ros.actions import SetParameter
 from moveit_configs_utils import MoveItConfigsBuilder
 from sciurus17_description.robot_description_loader import RobotDescriptionLoader
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
-    
+
     description_loader = RobotDescriptionLoader()
-    declare_loaded_description = DeclareLaunchArgument('loaded_description',
-                              default_value=description_loader.load(),
-                              description='Set robot_description text.  \
-                        It is recommended to use RobotDescriptionLoader() \
-                        in sciurus17_description.')
+    declare_loaded_description = DeclareLaunchArgument(
+        'loaded_description',
+        default_value=description_loader.load(),
+        description='Set robot_description text.  \
+                    It is recommended to use RobotDescriptionLoader() \
+                    in sciurus17_description.')
 
     moveit_config = (MoveItConfigsBuilder('sciurus17').planning_scene_monitor(
         publish_robot_description=True,
         publish_robot_description_semantic=True,
-    ).moveit_cpp(file_path=get_package_share_directory('sciurus17_examples_py') +
-        '/config/sciurus17_moveit_py_examples.yaml').to_moveit_configs())
+        ).moveit_cpp(file_path=get_package_share_directory('sciurus17_examples_py') +
+                     '/config/sciurus17_moveit_py_examples.yaml').to_moveit_configs())
 
     moveit_config.robot_description = {
         'robot_description': LaunchConfiguration('loaded_description')
@@ -54,19 +56,23 @@ def generate_launch_description():
         'use_sim_time', default_value='false',
         description=('Set true when using the gazebo simulator.')
     )
-    
+
+    # 下記Issue対応のためここでパラメータを設定する
+    # https://github.com/moveit/moveit2/issues/2940#issuecomment-2401302214
+    config_dict = moveit_config.to_dict()
+    config_dict.update({'use_sim_time':LaunchConfiguration('use_sim_time')})
+
     example_node = Node(
         name=[LaunchConfiguration('example'), '_node'],
         package='sciurus17_examples_py',
         executable=LaunchConfiguration('example'),
         output='screen',
-        parameters=[moveit_config.to_dict()],
+        parameters=[config_dict],
     )
 
     return LaunchDescription([
         declare_loaded_description,
         declare_use_sim_time,
-        SetParameter(name='use_sim_time', value=LaunchConfiguration('use_sim_time')),
         declare_example_name,
         example_node
     ])

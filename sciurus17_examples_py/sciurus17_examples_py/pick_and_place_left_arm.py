@@ -23,7 +23,6 @@ from moveit.planning import (
 import rclpy
 from rclpy.logging import get_logger
 from sciurus17_examples_py.utils import plan_and_execute
-from std_msgs.msg import Header
 
 
 def main(args=None):
@@ -95,7 +94,7 @@ def main(args=None):
     # 物体の上に腕を伸ばす
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = PRE_AND_POST_GRASP_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
@@ -108,7 +107,7 @@ def main(args=None):
     # 掴みに行く
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = GRASP_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
@@ -133,7 +132,7 @@ def main(args=None):
     # 持ち上げる
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = PRE_AND_POST_GRASP_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
@@ -146,7 +145,7 @@ def main(args=None):
     # 移動する
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = PRE_AND_POST_RELEASE_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
@@ -159,7 +158,7 @@ def main(args=None):
     # 下ろす
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = RELEASE_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
@@ -184,7 +183,7 @@ def main(args=None):
     # ハンドを持ち上げる
     l_arm.set_start_state_to_current_state()
     goal_pose = PoseStamped()
-    goal_pose.header.frame_id='base_link'
+    goal_pose.header.frame_id = 'base_link'
     goal_pose.pose = PRE_AND_POST_RELEASE_POSE
     l_arm.set_goal_state(pose_stamped_msg=goal_pose, pose_link='l_link7')
     plan_and_execute(
