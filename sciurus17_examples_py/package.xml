@@ -7,6 +7,8 @@
   <maintainer email="shop@rt-net.jp">RT Corporation</maintainer>
   <license>Apache License 2.0</license>
 
+  <author email="yakushigawa@rt-net.jp">chama1176</author>
+
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>moveit</exec_depend>
