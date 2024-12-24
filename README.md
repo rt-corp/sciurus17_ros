@@ -104,6 +104,9 @@ ros2 launch sciurus17_examples example.launch.py example:='gripper_control'
 - sciurus17_examples
   - [README](./sciurus17_examples/README.md)
   - Sciurus17のサンプルコード集です  
+- sciurus17_examples_py
+  - [README](./sciurus17_examples_py/README.md)
+  - Sciurus17のPythonサンプルコード集です  
 - sciurus17_gazebo
   - Sciurus17のGazeboシミュレーションパッケージです
 - sciurus17_moveit_config
