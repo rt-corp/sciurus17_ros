@@ -48,13 +48,9 @@ ROS 2 package suite of Sciurus17.
 ### Build from source
 
 ```sh
-# Setup ROS environment
-source /opt/ros/$ROS_DISTRO/setup.bash
-
 # Download packages
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
-git clone -b ros2 https://github.com/rt-net/rt_manipulators_cpp.git
 git clone -b $ROS_DISTRO https://github.com/rt-net/sciurus17_ros.git
 git clone -b $ROS_DISTRO https://github.com/rt-net/sciurus17_description.git
 
